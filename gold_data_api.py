@@ -4,15 +4,11 @@ import pandas as pd
 
 app = Flask(__name__)
 
-@app.route('/gold-data')
+@app.route('/gold-data', methods=['GET'])
 def get_gold_data():
-    try:
-        df = yf.download('GC=F', start='2022-01-01', end='2024-01-01', auto_adjust=True)
-        if df.empty:
-            return jsonify({"error": "No data found."}), 404
-
-        df = df.dropna().reset_index()
-        return df.to_json(orient='records', date_format='iso')
+    df = yf.download("GC=F", start="2022-01-01", end="2024-01-01")
+    df.reset_index(inplace=True)  # Ensures 'Date' is a column
+    return df.to_json(orient="records")  # return as list of dicts
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

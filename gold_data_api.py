@@ -15,7 +15,7 @@ def get_gold_data():
         if 'Date' not in df.columns:
             df.reset_index(inplace=True) # Promote index to column
             df.rename(columns={"Date": "Date"}, inplace=True)  # Optional no-op
-    return df.to_json(orient="records")
+        return df.to_json(orient="records")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
